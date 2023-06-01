@@ -18,7 +18,7 @@ services:
   php:
     restart: unless-stopped
     build:
-     dockerfile: ./Dockerfile
+     dockerfile: php/Dockerfile
      context: .
     healthcheck:
       test: ["CMD-SHELL", "curl -sS http://localhost:80 | grep -c works > /dev/null"]
