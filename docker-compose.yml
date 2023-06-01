@@ -1,0 +1,27 @@
+version: '3.8'
+
+# Services
+services:
+
+  # Nginx Service
+  nginx:
+    image: nginx:1.21
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www/php
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php
+
+  # PHP Service
+  php:
+    restart: unless-stopped
+    build:
+     dockerfile: ./Dockerfile
+     context: .
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sS http://localhost:80 | grep -c works > /dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
